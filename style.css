@@ -1,0 +1,285 @@
+@import url("https://fonts.googleapis.com/css?family=Lato:400,700");
+
+:root {
+    --primaryColor: #f09d51;
+    --mainWhite: #fff;
+    --mainBlack: #222;
+    --mainGrey: #ececec;
+    --letterSpacing: 0.1rem;
+    --mainTransition: all 0.3s linear;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    color: var(--mainBlack);
+    background: var(--mainWhite);
+    font-family: "Lato", sans-serif;
+}
+
+
+/* Navbar */
+
+.navbar {
+    position: sticky;
+    top: 0;
+    height: 60px;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    background-color: var(--mainGrey);
+    z-index: 1;
+}
+
+.nav-items {
+    width: 100%;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 1.5rem;
+}
+
+.nav-icon {
+    font-size: 1.5rem;
+}
+
+.cart-btn {
+    position: relative;
+    cursor: pointer;
+}
+
+.cart-items {
+    position: absolute;
+    top: 5px;
+    right: 10px;
+    color: var(--mainWhite);
+    background: var(--primaryColor);
+    border-radius: 10px;
+    padding: 0 5px;
+    font-size: 1rem;
+}
+
+
+.header {
+    min-height: calc(100vh - 60px);
+    background: url('./images/hero-bcg.jpeg') no-repeat center/cover;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.banner {
+    background-color: var(--mainGrey);
+    padding: 2rem;
+    text-align: center;
+    display: inline-block;
+    margin: 0 auto;
+}
+
+.banner-title {
+    font-size: 3.5rem;
+    text-transform: uppercase;
+    letter-spacing: var(--letterSpacing);
+    margin-bottom: 3rem;
+}
+
+.banner-btn {
+    padding: 1rem 3rem;
+    font-size: 1.5rem;
+    letter-spacing: var(--letterSpacing);
+    background: var(--primaryColor);
+    padding: 1rem;
+    border: 1px solid var(--primaryColor);
+    text-transform: uppercase;
+    color: var(--mainBlack);
+    transition: var(--mainTransition);
+    text-decoration: none;
+    /* -webkit-box-reflect: below 1px linear-gradient(transparent, var(--primaryColor)); */
+}
+
+.banner-btn:hover {
+    color: var(--primaryColor);
+    background: transparent;
+}
+
+.products {
+    padding: 3rem 0;
+}
+
+.section-title h2 {
+    text-align: center;
+    margin-bottom: 2rem;
+    text-transform: uppercase;
+    letter-spacing: var(--letterSpacing);
+}
+
+.products-center {
+    width: 90vw;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    grid-column-gap: 1.5rem;
+    grid-row-gap: 2rem;
+}
+
+.product-container {
+    position: relative;
+    overflow: hidden;
+}
+
+.product-img {
+    display: block;
+    width: 100%;
+    min-height: 12rem;
+    transition: var(--mainTransition);
+}
+
+.addtocart-btn {
+    position: absolute;
+    top: 70%;
+    right: 0;
+    background: var(--primaryColor);
+    text-transform: uppercase;
+    letter-spacing: var(--letterSpacing);
+    padding: 0.5rem;
+    transition: var(--mainTransition);
+    transform: translateX(101%);
+    border: none;
+    font-weight: bold;
+}
+
+.addtocart-btn:hover {
+    color: var(--mainWhite)
+}
+
+.product-container:hover .addtocart-btn {
+    transform: translateX(0%);
+}
+
+.product-container:hover .product-img {
+    opacity: 0.5;
+}
+
+.product-details {
+    display: flex;
+    justify-content: space-between;
+    text-transform: capitalize;
+    letter-spacing: var(--letterSpacing);
+    margin-top: 0.5rem;
+}
+
+.product-details h4{
+    color: var(--primaryColor);
+}
+
+.cart-container {
+    position: fixed;
+    height: 100%;
+    top: 0;
+    right: 0;
+    padding: 1.5rem;
+    z-index: 2;
+    transition: var(--mainTransition);
+    visibility: hidden;
+}
+
+.show-cart{
+    visibility: visible;
+}
+
+.cart {
+    width: 100%;
+    height: 100%;
+    top: 0;
+    right: 0;
+    position: fixed;
+    overflow: scroll;
+    z-index: 3;
+    padding: 1.5rem;
+    background-color: var(--mainGrey);
+    transform: translateX(100%);
+}
+
+.cart-transform{
+    transform: translateX(0%);
+}
+
+@media screen and (min-width: 768px) {
+    .cart {
+        width: 30vw;
+        min-width: 450px;
+    }
+}
+
+.close-btn {
+    font-size: 1.5rem;
+    cursor: pointer;
+}
+
+h2 {
+    text-align: center;
+    text-transform: capitalize;
+    letter-spacing: var(--letterSpacing);
+    margin-bottom: 2rem;
+}
+
+.cart-item {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    align-items: center;
+    grid-column-gap: 1rem;
+}
+
+
+.cart-item img {
+    width: 85px;
+}
+
+.cart-left,
+.cart-right {
+    display: flex;
+    gap: 2rem;
+    font-size: 1.2rem;
+    padding: 0.5rem 0;
+}
+
+.cart-left .details{
+    display: flex;
+    flex-direction: column;
+    gap: 2.5rem;
+    text-transform: capitalize;
+}
+
+.cart-right {
+    flex-direction: column;
+    align-items: flex-end;
+    padding-right: 5px;
+}
+
+.cart-right .quantity {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.fa-circle-chevron-left,
+.fa-circle-chevron-right,
+.fa-trash-can {
+  color: var(--primaryColor);
+  cursor: pointer;
+}
+
+.cart-footer {
+    margin-top: 2rem;
+    letter-spacing: var(--mainSpacing);
+    text-align: right;
+}
+
+.cart-footer h3 {
+    text-transform: capitalize;
+    margin-bottom: 1rem;
+}
