@@ -1,3 +1,9 @@
+//code to get the data from contentful
+const client = contentful.createClient({
+  accessToken: 'vD83emaPKUan3HvA4_Myli07FSOLQaLIdOvpKnvl27s',
+  space: '56nh6t1bofms'
+})
+
 const productsDOM = document.querySelector(".products-center");
 const cartItemsCount = document.querySelector(".cart-items");
 const cartTotal = document.querySelector('.cart-total');
@@ -15,11 +21,15 @@ let cartBtnsDOM = [];
 class Products {
     async getProducts() {
         try {
+            //get products from contentful, the contentful.js library returns calls to getentries
+            let conentfulRes = await client.getEntries({content_type: 'comfyHouse'});
+            console.log(conentfulRes.items);
 
-            let response = await fetch('./data/products.json');
-            let data = await response.json();
+            //get products from json file
+            // let response = await fetch('./data/products.json');
+            // let data = await response.json();
 
-            let products = data.items.map(item => {
+            let products = conentfulRes.items.map(item => {
                 const { id } = item.sys;
                 const { title, price } = item.fields;
                 const img = item.fields.image.fields.file.url;

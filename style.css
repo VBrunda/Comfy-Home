@@ -93,7 +93,6 @@ body {
     font-size: 1.5rem;
     letter-spacing: var(--letterSpacing);
     background: var(--primaryColor);
-    padding: 1rem;
     border: 1px solid var(--primaryColor);
     text-transform: uppercase;
     color: var(--mainBlack);
@@ -137,6 +136,7 @@ body {
     width: 100%;
     min-height: 12rem;
     transition: var(--mainTransition);
+    aspect-ratio: 3/2;
 }
 
 .addtocart-btn {
@@ -238,6 +238,7 @@ h2 {
 
 .cart-item img {
     width: 85px;
+    aspect-ratio: 5/2;
 }
 
 .cart-left,
