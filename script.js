@@ -1,8 +1,8 @@
 //code to get the data from contentful
-const client = contentful.createClient({
-  accessToken: 'vD83emaPKUan3HvA4_Myli07FSOLQaLIdOvpKnvl27s',
-  space: '56nh6t1bofms'
-})
+// const client = contentful.createClient({
+//   accessToken: '',
+//   space: ''
+// })
 
 const productsDOM = document.querySelector(".products-center");
 const cartItemsCount = document.querySelector(".cart-items");
@@ -13,6 +13,8 @@ const cart = document.querySelector('.cart');
 const cartBtn = document.querySelector('.cart-btn');
 const closeCartBtn = document.querySelector('.close-btn');
 const clearCartBtn = document.querySelector('.clear-cart');
+const searchForm = document.querySelector('.search-form');
+const searchInput = document.querySelector('.search-input');
 
 
 let cartItems = [];
@@ -22,12 +24,11 @@ class Products {
     async getProducts() {
         try {
             //get products from contentful, the contentful.js library returns calls to getentries
-            let conentfulRes = await client.getEntries({content_type: 'comfyHouse'});
-            console.log(conentfulRes.items);
+            // let conentfulRes = await client.getEntries({content_type: 'comfyHouse'});
 
             //get products from json file
-            // let response = await fetch('./data/products.json');
-            // let data = await response.json();
+            let response = await fetch('./data/products.json');
+            let conentfulRes = await response.json();
 
             let products = conentfulRes.items.map(item => {
                 const { id } = item.sys;
@@ -46,7 +47,6 @@ class Products {
 class Ui {
     dispalyProducts(products) {
         let productView = '';
-
         products.forEach(product => {
             productView += `<article class="product">
                     <div class="product-container">
@@ -243,6 +243,14 @@ class Ui {
         //add event to cart button
         cartBtn.addEventListener("click", this.viewCart);
         closeCartBtn.addEventListener("click", this.viewCart);
+        
+        //search logic
+        searchForm.addEventListener("keyup", () => {
+            let searchedProduct = LocalStorage.searchProduct(searchInput.value);
+            this.dispalyProducts(searchedProduct);
+        this.getCartBtn();
+        this.cartLogic();
+        })
     }
 
 }
@@ -255,6 +263,12 @@ class LocalStorage {
     static getProduct(id) {
         let products = JSON.parse(localStorage.getItem('Products'));
         return products.find(product => product.id === id);
+    }
+
+    static searchProduct(searchTxt){
+        let products = JSON.parse(localStorage.getItem("Products"));
+        return products.filter(item => item.title.toLowerCase().includes(searchTxt));
+            
     }
 
     static saveCartItems(cartItems) {
@@ -272,9 +286,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
     ui.onLoadApp();
     products.getProducts().then(product => {
+        console.log(product);
         ui.dispalyProducts(product);
         LocalStorage.saveProducts(product);
     }).then(e => {
+        console.log(e);
         ui.getCartBtn();
         ui.cartLogic();
     });
