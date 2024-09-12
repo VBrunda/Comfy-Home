@@ -47,22 +47,27 @@ class Products {
 class Ui {
     dispalyProducts(products) {
         let productView = '';
-        products.forEach(product => {
-            productView += `<article class="product">
-                    <div class="product-container">
-                        <img src=${product.img} alt="" class="product-img">
-                        <button class="addtocart-btn" data-id=${product.id}>
-                            <i class="fa-solid fa-cart-shopping"> Add to Cart</i>                            
-                        </button>
-                    </div>
-                    <div class="product-details">
-                        <h3>${product.title}</h3>
-                        <h4>$${product.price}</h4>
-                    </div>
-
-                </article>
-            `
-        });
+        if(products.length === 0){
+            productView += '<p class="no-products">Sorry, Couldn\'t find any Products</p>';
+        }else{
+            products.forEach(product => {
+                productView += `<article class="product">
+                        <div class="product-container">
+                            <img src=${product.img} alt="" class="product-img">
+                            <button class="addtocart-btn" data-id=${product.id}>
+                                <i class="fa-solid fa-cart-shopping"> Add to Cart</i>                            
+                            </button>
+                        </div>
+                        <div class="product-details">
+                            <h3>${product.title}</h3>
+                            <h4>$${product.price}</h4>
+                        </div>
+    
+                    </article>
+                `
+            });
+        }
+       
         productsDOM.innerHTML = productView;
     }
 
@@ -161,10 +166,10 @@ class Ui {
         toCartBtn.innerHTML = `<i class="fa-solid fa-cart-shopping"> Add to Cart </i>`;
     }
 
-    clearCart(){
+    clearCart() {
         let cartContentId = cartItems.map(item => item.id);
         cartContentId.forEach(id => this.removeItemCart(id));
-        while(cartContent.children.length > 0){
+        while (cartContent.children.length > 0) {
             cartContent.removeChild(cartContent.children[0]);
         }
     }
@@ -204,27 +209,27 @@ class Ui {
             } else if (event.target.classList.contains('decr-qty')) {
                 let decrItem = event.target;
                 let itemId = decrItem.dataset.id;
-                
+
                 //decrease the count by 1 in local storage
                 let tempItem = cartItems.find(item => item.id === itemId);
 
                 tempItem.quantity--;
                 //check if quantity > 0
                 if (tempItem.quantity <= 0) {
-                     //remove from cart container
-                     cartContent.removeChild(decrItem.parentElement.parentElement.parentElement);
+                    //remove from cart container
+                    cartContent.removeChild(decrItem.parentElement.parentElement.parentElement);
 
-                     //remove from local cart storage
-                     this.removeItemCart(itemId);
+                    //remove from local cart storage
+                    this.removeItemCart(itemId);
                 }
-                    //update localstorage
-                    LocalStorage.saveCartItems(cartItems);
+                //update localstorage
+                LocalStorage.saveCartItems(cartItems);
 
-                    //calculate cart total and update item count in cart
-                    this.calculateCartTotal(cartItems);
+                //calculate cart total and update item count in cart
+                this.calculateCartTotal(cartItems);
 
-                    //update count of item in cart container
-                    decrItem.nextElementSibling.innerText = tempItem.quantity;
+                //update count of item in cart container
+                decrItem.nextElementSibling.innerText = tempItem.quantity;
 
             }
         })
@@ -243,13 +248,13 @@ class Ui {
         //add event to cart button
         cartBtn.addEventListener("click", this.viewCart);
         closeCartBtn.addEventListener("click", this.viewCart);
-        
+
         //search logic
         searchForm.addEventListener("keyup", () => {
             let searchedProduct = LocalStorage.searchProduct(searchInput.value);
             this.dispalyProducts(searchedProduct);
-        this.getCartBtn();
-        this.cartLogic();
+            this.getCartBtn();
+            this.cartLogic();
         })
     }
 
@@ -265,10 +270,10 @@ class LocalStorage {
         return products.find(product => product.id === id);
     }
 
-    static searchProduct(searchTxt){
+    static searchProduct(searchTxt) {
         let products = JSON.parse(localStorage.getItem("Products"));
         return products.filter(item => item.title.toLowerCase().includes(searchTxt));
-            
+
     }
 
     static saveCartItems(cartItems) {
@@ -286,11 +291,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
     ui.onLoadApp();
     products.getProducts().then(product => {
-        console.log(product);
         ui.dispalyProducts(product);
         LocalStorage.saveProducts(product);
     }).then(e => {
-        console.log(e);
         ui.getCartBtn();
         ui.cartLogic();
     });

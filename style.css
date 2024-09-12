@@ -308,3 +308,9 @@ h2 {
     text-transform: capitalize;
     margin-bottom: 1rem;
 }
+
+.no-products{
+    text-align: center;
+    color: gray;
+    font-size: 1.5rem;
+}
